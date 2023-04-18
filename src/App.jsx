@@ -1,5 +1,7 @@
-import { TextInput, Button, Space, Badge } from '@mantine/core';
+import { TextInput, Button, Space, Badge, Grid } from '@mantine/core';
 import { useState } from 'react';
+import AddTask from './components/AddTask';
+import Task from './components/Task';
 function App() {
   const [tasks, setTasks] = useState(['Task 1', 'Task2', 'Task3']);
   //usestate return two value
@@ -7,24 +9,22 @@ function App() {
   const addTask = (taskToAdd) => {
     const newTasks = [...tasks, taskToAdd]; //spred operator work like push
     //[tasks.push(taskToAd]) or
-    console.log(newTasks)
+    setTasks(newTasks);
+  };
+
+  const deleteTask = (task) => {
+    const newTasks = [...tasks];
+    newTasks.splice(newTasks.indexOf(task), 1);
     setTasks(newTasks);
   };
   return (
     <div className="App">
-      <TextInput
-        placeholder="Task Name"
-        label="Task"
-        description="Please Enter Task"
-        withAsterisk
-      />
+      <AddTask onAddTask={addTask} />
       <Space h="md" />
-      <Button onClick={() => addTask('Hello')}>Add Task</Button>
+      {/* <Button onClick={() => addTask('Hello')}>Add Task</Button> */}
       <div>
         {tasks.map((task, index) => (
-          <Badge>
-            {index + 1}:{task}
-          </Badge>
+          <Task task={task} index={index} onDelete={deleteTask} />
         ))}
       </div>
     </div>
